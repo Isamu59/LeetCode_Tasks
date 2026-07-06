@@ -1,0 +1,22 @@
+name: Sync LeetCode to GitHub
+
+on:
+  workflow_dispatch: # Позволяет запускать синхронизацию вручную одной кнопкой
+  schedule:
+    - cron: '0 8 * * *' # Автоматический запуск каждый день в 08:00 UTC
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Open Repository
+        uses: actions/checkout@v4
+
+      - name: Sync Solutions
+        uses: joshcai/leetcode-sync@v1.7.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          leetcode-csrf-token: ${{ secrets.LEETCODE_TOKEN }}
+          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
+          destination-folder: 'solutions' # Имя папки в репозитории, куда пойдут задачи
